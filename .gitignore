@@ -1,0 +1,12 @@
+# Node
+node_modules/
+
+# Output files
+slide-workspace/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json

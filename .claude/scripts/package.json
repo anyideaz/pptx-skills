@@ -1,0 +1,17 @@
+{
+  "name": "slide-deck-skills-runner",
+  "version": "1.0.0",
+  "description": "PPTXGenJS runner for slide-deck AI skills",
+  "private": true,
+  "dependencies": {
+    "pptxgenjs": "^4.0.1",
+    "uuid": "^10.0.0"
+  },
+  "main": "run_pptxgenjs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
