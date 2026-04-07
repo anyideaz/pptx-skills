@@ -6,9 +6,9 @@ This document explains how to adapt the slide-deck skills for GitHub Copilot or 
 
 The following components are agent-agnostic and require no changes:
 
-- **`.claude/scripts/`** — All Python and Node.js scripts work identically regardless of agent
-- **`.claude/prompts/`** — All prompt rule files are plain markdown, usable by any LLM
-- **`.claude/docs/`** — API reference and documentation are agent-agnostic
+- **`scripts/`** — All Python and Node.js scripts work identically regardless of agent
+- **`prompts/`** — All prompt rule files are plain markdown, usable by any LLM
+- **`docs/`** — API reference and documentation are agent-agnostic
 - **`slide-workspace/`** — Runtime workspace directory convention
 
 ## What Changes Per Agent
@@ -53,7 +53,7 @@ Skills are placed in `.claude/skills/{name}/SKILL.md` and are automatically pick
 
 - **Cursor**: Place skill content in `.cursorrules` or `.cursor/rules/`
 - **Aider**: Use `--system-prompt` argument or `.aider.conf.yml`
-- **Generic**: Any agent that accepts a system prompt can use the `.claude/prompts/` files directly
+- **Generic**: Any agent that accepts a system prompt can use the `prompts/` files directly
 
 ## Step-by-Step Migration to Copilot
 
@@ -84,10 +84,10 @@ All dependency scripts work cross-agent:
 
 ```bash
 # Unix/macOS
-bash .claude/scripts/setup_deps.sh
+bash scripts/setup_deps.sh
 
 # Windows
-powershell -ExecutionPolicy Bypass -File .claude/scripts/setup_deps.ps1
+powershell -ExecutionPolicy Bypass -File scripts/setup_deps.ps1
 ```
 
 These scripts install python-pptx, Pillow, and pptxgenjs — no Docker required.

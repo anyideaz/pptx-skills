@@ -34,12 +34,12 @@ Edit request    ──[slide-edit]──────▶  Modify & regenerate
 
 **Unix / macOS:**
 ```bash
-bash .claude/scripts/setup_deps.sh
+bash shared/scripts/setup_deps.sh
 ```
 
 **Windows (PowerShell):**
 ```powershell
-.\.claude\scripts\setup_deps.ps1
+.\shared\scripts\setup_deps.ps1
 ```
 
 This installs:
@@ -235,7 +235,7 @@ A template only needs to be analyzed once. After that, you can generate any numb
 | Issue | Solution |
 |---|---|
 | `python-pptx not found` | Re-run `setup_deps.sh` or `pip install python-pptx Pillow` |
-| `pptxgenjs not found` | Run `npm install` inside `.claude/scripts/` |
+| `pptxgenjs not found` | Run `npm install` inside `shared/scripts/` |
 | PPTX file fails to open | Re-run `/slide-generate` — the runner auto-fixes common PPTX XML issues |
 | Output doesn't match template style | Ensure `/slide-analyze` was run first; check `guideline.md` in the template folder |
 | `/slide-edit` breaks the layout | Restore from `code.js.bak`, then retry with a more specific description |

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit(/.claude/skills/slide-analyze/**)",
+      "Edit(/.claude/skills/slide-generate/**)",
+      "Edit(/.claude/skills/slide-edit/**)",
+      "Edit(/.claude/skills/markitdown/**)"
+    ]
+  }
+}

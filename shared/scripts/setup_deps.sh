@@ -18,13 +18,18 @@ fi
 echo "✓ Python: $($PYTHON --version)"
 
 # Install Python packages
-echo "Installing Python packages (python-pptx, Pillow)..."
-$PYTHON -m pip install --user "python-pptx>=1.0.0" "Pillow>=10.0.0" --quiet
+echo "Installing Python packages (python-pptx, Pillow, markitdown)..."
+$PYTHON -m pip install --user "python-pptx>=1.0.0" "Pillow>=10.0.0" "markitdown[all]>=0.1.0" --quiet
 if ! $PYTHON -c "import pptx" 2>/dev/null; then
     echo "ERROR: python-pptx installation failed." >&2
     exit 3
 fi
 echo "✓ python-pptx installed"
+if ! $PYTHON -c "import markitdown" 2>/dev/null; then
+    echo "ERROR: markitdown installation failed." >&2
+    exit 3
+fi
+echo "✓ markitdown installed"
 
 # Check Node.js
 if ! command -v node &>/dev/null; then

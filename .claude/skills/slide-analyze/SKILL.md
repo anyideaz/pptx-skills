@@ -8,7 +8,7 @@ triggers:
   - pptx analysis
   - analyze slide template
   - /slide-analyze
-compatibility: Requires Python 3.10+ with python-pptx and Pillow installed. Run .claude/scripts/setup_deps.sh (Unix) or .claude/scripts/setup_deps.ps1 (Windows) to install dependencies.
+compatibility: Requires Python 3.10+ with python-pptx and Pillow installed. Run shared/scripts/setup_deps.sh (Unix) or shared/scripts/setup_deps.ps1 (Windows) to install dependencies.
 metadata:
   author: slide-deck-utils
   version: 1.0.0
@@ -51,21 +51,21 @@ python -c "import pptx" 2>/dev/null || python3 -c "import pptx" 2>/dev/null
 ```
 
 If the check fails, run the appropriate setup script:
-- Unix/macOS: `bash .claude/scripts/setup_deps.sh`
-- Windows: `powershell -ExecutionPolicy Bypass -File .claude/scripts/setup_deps.ps1`
+- Unix/macOS: `bash shared/scripts/setup_deps.sh`
+- Windows: `powershell -ExecutionPolicy Bypass -File shared/scripts/setup_deps.ps1`
 
 ### Step 5 — Extract Template Context
 
 Run the extraction script:
 ```bash
-python .claude/scripts/extract_template.py \
+python shared/scripts/extract_template.py \
   "slide-workspace/templates/{template-name}/original.pptx" \
   "slide-workspace/templates/{template-name}/"
 ```
 
 Or on Windows:
 ```bash
-python .claude/scripts/extract_template.py "slide-workspace/templates/{template-name}/original.pptx" "slide-workspace/templates/{template-name}/"
+python shared/scripts/extract_template.py "slide-workspace/templates/{template-name}/original.pptx" "slide-workspace/templates/{template-name}/"
 ```
 
 This produces:
@@ -88,9 +88,9 @@ List the files in `images/` directory to confirm images were extracted.
 
 ### Step 7 — Read Prompt Rules
 
-Read the analysis prompt from `.claude/prompts/analyze-rules.md`.
+Read the analysis prompt from `shared/prompts/analyze-rules.md`.
 
-Read the PptxGenJS API reference from `.claude/docs/pptxgenjs-api.md`.
+Read the PptxGenJS API reference from `shared/docs/pptxgenjs-api.md`.
 
 ### Step 8 — Generate Guideline and Sample Code
 

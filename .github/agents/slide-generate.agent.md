@@ -61,7 +61,7 @@ Read from the template workspace:
 
 ### Step 6 — Generate Outline
 
-Read prompt rules from `.claude/prompts/outline-rules.md`.
+Read prompt rules from `shared/prompts/outline-rules.md`.
 
 Using the outline rules as system instructions and the template guideline + user's topic as context, generate a presentation outline:
 - Numbered list of slide titles with bullet point content
@@ -77,10 +77,10 @@ slide-workspace/presentations/{presentation-name}/outline.md
 ### Step 7 — Generate Preamble Code
 
 Read prompt rules from:
-- `.claude/prompts/preamble-rules.md`
-- `.claude/prompts/shared-pptxgenjs-rules.md`
+- `shared/prompts/preamble-rules.md`
+- `shared/prompts/shared-pptxgenjs-rules.md`
 
-Read the API reference from `.claude/docs/pptxgenjs-api.md`.
+Read the API reference from `shared/docs/pptxgenjs-api.md`.
 
 Using preamble-rules.md as system instructions, generate the PptxGenJS initialization code:
 - `const pptx = new PptxGenJS();`
@@ -98,7 +98,7 @@ slide-workspace/presentations/{presentation-name}/preamble.js
 
 Parse the outline into individual slides (each numbered item is a slide).
 
-Read prompt rules from `.claude/prompts/slide-code-rules.md`.
+Read prompt rules from `shared/prompts/slide-code-rules.md`.
 
 For each slide in the outline:
 - Use slide-code-rules.md as system instructions
@@ -147,14 +147,14 @@ node -e "require('pptxgenjs')" 2>/dev/null
 ```
 
 If it fails, run the setup script:
-- Unix/macOS: `bash .claude/scripts/setup_deps.sh`
-- Windows: `powershell -ExecutionPolicy Bypass -File .claude/scripts/setup_deps.ps1`
+- Unix/macOS: `bash shared/scripts/setup_deps.sh`
+- Windows: `powershell -ExecutionPolicy Bypass -File shared/scripts/setup_deps.ps1`
 
 ### Step 11 — Run PPTXGenJS
 
 Execute the code:
 ```bash
-node .claude/scripts/run_pptxgenjs.js \
+node shared/scripts/run_pptxgenjs.js \
   "slide-workspace/presentations/{presentation-name}/code.js" \
   "slide-workspace/templates/{template-name}/images" \
   "slide-workspace/presentations/{presentation-name}/output.pptx"

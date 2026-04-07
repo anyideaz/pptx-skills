@@ -19,8 +19,8 @@ if (-not $Python) {
 Write-Host "✓ Python: $(& $Python --version)"
 
 # Install Python packages
-Write-Host "Installing Python packages (python-pptx, Pillow)..."
-& $Python -m pip install --user "python-pptx>=1.0.0" "Pillow>=10.0.0" --quiet
+Write-Host "Installing Python packages (python-pptx, Pillow, markitdown)..."
+& $Python -m pip install --user "python-pptx>=1.0.0" "Pillow>=10.0.0" "markitdown[all]>=0.1.0" --quiet
 try {
     & $Python -c "import pptx" 2>$null
 } catch {
@@ -28,6 +28,13 @@ try {
     exit 3
 }
 Write-Host "✓ python-pptx installed"
+try {
+    & $Python -c "import markitdown" 2>$null
+} catch {
+    Write-Host "ERROR: markitdown installation failed." -ForegroundColor Red
+    exit 3
+}
+Write-Host "✓ markitdown installed"
 
 # Check Node.js
 if (-not (Get-Command node -ErrorAction SilentlyContinue)) {

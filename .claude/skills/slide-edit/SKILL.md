@@ -8,7 +8,7 @@ triggers:
   - change slides
   - fix presentation
   - /slide-edit
-compatibility: Requires Node.js 18+ with pptxgenjs installed. Run .claude/scripts/setup_deps.sh (Unix) or .claude/scripts/setup_deps.ps1 (Windows) to install dependencies. Presentation must be generated first with slide-generate.
+compatibility: Requires Node.js 18+ with pptxgenjs installed. Run shared/scripts/setup_deps.sh (Unix) or shared/scripts/setup_deps.ps1 (Windows) to install dependencies. Presentation must be generated first with slide-generate.
 metadata:
   author: slide-deck-utils
   version: 1.0.0
@@ -64,10 +64,10 @@ List all files in `slide-workspace/templates/{template-name}/images/` to get ava
 ### Step 5 — Read Prompt Rules
 
 Read prompt rules from:
-- `.claude/prompts/edit-rules.md` — editing-specific rules
-- `.claude/prompts/shared-pptxgenjs-rules.md` — shared generation rules
+- `shared/prompts/edit-rules.md` — editing-specific rules
+- `shared/prompts/shared-pptxgenjs-rules.md` — shared generation rules
 
-Read the API reference from `.claude/docs/pptxgenjs-api.md`.
+Read the API reference from `shared/docs/pptxgenjs-api.md`.
 
 ### Step 6 — Apply Edit
 
@@ -109,14 +109,14 @@ node -e "require('pptxgenjs')" 2>/dev/null
 ```
 
 If it fails, run the setup script:
-- Unix/macOS: `bash .claude/scripts/setup_deps.sh`
-- Windows: `powershell -ExecutionPolicy Bypass -File .claude/scripts/setup_deps.ps1`
+- Unix/macOS: `bash shared/scripts/setup_deps.sh`
+- Windows: `powershell -ExecutionPolicy Bypass -File shared/scripts/setup_deps.ps1`
 
 ### Step 9 — Regenerate PPTX
 
 Execute the updated code:
 ```bash
-node .claude/scripts/run_pptxgenjs.js \
+node shared/scripts/run_pptxgenjs.js \
   "slide-workspace/presentations/{presentation-name}/code.js" \
   "slide-workspace/templates/{template-name}/images" \
   "slide-workspace/presentations/{presentation-name}/output.pptx"
