@@ -59,6 +59,17 @@ slide-workspace/
 
 Skills in [.claude/skills/](.claude/skills/) define multi-step agent workflows triggered by `/markitdown`, `/slide-analyze`, `/slide-generate`, `/slide-edit`. Prompts in [shared/prompts/](shared/prompts/) provide LLM instructions for each generation phase. GitHub Copilot equivalents live in [.github/agents/](.github/agents/) and [.github/prompts/](.github/prompts/).
 
+
+When **adding** a new skill:
+When **modifying** a skill (workflow steps, naming conventions, rules, etc.):
+1. Update `.claude/skills/{name}/SKILL.md`
+2. Apply the same change to `.github/agents/{name}.agent.md`
+
+When **deleting** a skill:
+1. Remove `.claude/skills/{name}/SKILL.md`
+2. Remove `.github/agents/{name}.agent.md`
+3. Remove the row from the inventory table above
+
 ## Critical PPTXGenJS Constraints
 
 These rules apply whenever writing or reviewing generated `code.js`:
@@ -97,7 +108,10 @@ All scripts return meaningful exit codes:
 
 ## Naming Conventions
 
-- Template names: lowercase hyphenated derived from PPTX filename (`My Corp.pptx` → `my-corp`)
-- Presentation names: lowercase hyphenated derived from topic (`Q4 Sales` → `q4-sales`)
-- Source names: lowercase hyphenated derived from input filename (`Q4-Report.xlsx` → `q4-report`)
+All workspace output folders include a `YYYYMMDD-HHmmss` timestamp suffix so multiple runs never overwrite each other.
+
+- Template names: `{slug}-{timestamp}` from PPTX filename (`My Corp.pptx` → `my-corp-20260407-143022`)
+- Presentation names: `{slug}-{timestamp}` from topic (`Q4 Sales` → `q4-sales-20260407-143022`)
+- Source names: lowercase hyphenated derived from input filename (`Q4-Report.xlsx` → `q4-report`) — no timestamp (sources are one-time conversions)
+- Edit outputs: `output-{timestamp}.pptx` inside the existing presentation folder
 - Image filenames: preserved as extracted (`master0_Logo.png`, `layout0_bg.jpg`)

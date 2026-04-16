@@ -114,19 +114,21 @@ If it fails, run the setup script:
 
 ### Step 9 — Regenerate PPTX
 
+Generate a timestamped output filename in `output-YYYYMMDD-HHmmss.pptx` format (use the current date/time):
+
 Execute the updated code:
 ```bash
 node shared/scripts/run_pptxgenjs.js \
   "slide-workspace/presentations/{presentation-name}/code.js" \
   "slide-workspace/templates/{template-name}/images" \
-  "slide-workspace/presentations/{presentation-name}/output.pptx"
+  "slide-workspace/presentations/{presentation-name}/output-{timestamp}.pptx"
 ```
 
 ### Step 10 — Report Result
 
 Report to the user:
 - Changes made (brief summary)
-- Output file: `slide-workspace/presentations/{presentation-name}/output.pptx`
+- Output file: `slide-workspace/presentations/{presentation-name}/output-{timestamp}.pptx`
 - Any warnings from the runner
 - Note: previous code backed up to `code.js.bak`
 

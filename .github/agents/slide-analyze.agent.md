@@ -27,7 +27,7 @@ Derive a filesystem-safe template name from the filename:
 - Convert to lowercase
 
 ### Step 3 — Create Workspace
-
+ 
 Create the template workspace directory:
 ```
 slide-workspace/templates/{template-name}/

@@ -34,7 +34,6 @@ Gather from the user (ask if not provided):
 Check that the template workspace exists:
 ```
 slide-workspace/templates/{template-name}/
-  context.json     ← required
   guideline.md     ← required
   sample_code.js   ← required
   images/          ← may be empty
@@ -44,10 +43,13 @@ If missing, inform the user to run `slide-analyze` on the template first.
 
 ### Step 3 — Derive Presentation Name
 
-Derive a filesystem-safe presentation name from the topic:
+Derive a filesystem-safe presentation name from the topic with a timestamp suffix:
 - Replace spaces and special characters with hyphens
 - Convert to lowercase
-- Example: `"Q4 Sales Review 2024"` → `q4-sales-review-2024`
+- Append a timestamp in `YYYYMMDD-HHmmss` format (use the current date/time)
+- Example: `"Q4 Sales Review 2024"` → `q4-sales-review-2024-20260407-143022`
+
+The timestamp ensures each run produces a unique folder so outputs are never overwritten.
 
 ### Step 4 — Create Presentation Workspace
 
@@ -59,9 +61,8 @@ slide-workspace/presentations/{presentation-name}/
 ### Step 5 — Read Template Context
 
 Read from the template workspace:
-- `context.json` — full structured template data
 - `guideline.md` — design guidelines
-- `sample_code.js` — sample code for reference
+- `sample_code.js` — primary reference: contains master definitions, layout patterns, background colors, image usage, and positioning examples
 - List all files in `images/` directory to get available image filenames
 
 ### Step 6 — Generate Outline
@@ -79,22 +80,21 @@ Save the outline to:
 slide-workspace/presentations/{presentation-name}/outline.md
 ```
 
-### Step 7 — Generate Preamble Code
+### Step 7 — Extract Preamble from sample_code.js
 
-Read prompt rules from:
-- `shared/prompts/preamble-rules.md`
-- `shared/prompts/shared-pptxgenjs-rules.md`
+Extract the preamble directly from `sample_code.js` — no LLM generation needed.
 
-Read the API reference from `shared/docs/pptxgenjs-api.md`.
-
-Using preamble-rules.md as system instructions, generate the PptxGenJS initialization code:
+The preamble consists of everything in `sample_code.js` **before** the first slide block, which includes:
 - `const pptx = new PptxGenJS();`
-- `pptx.defineLayout(...)` if template uses custom dimensions
-- All `pptx.defineSlideMaster(...)` calls — one per master in context.json
+- `pptx.defineLayout(...)` (if present)
+- All `pptx.defineSlideMaster(...)` calls
+- Any top-level helper functions (e.g. `function addLayout0Images(slide) {...}`)
 
-Do NOT include any slide content or `writeFile` call.
+A "slide block" begins when the first `pptx.addSlide` call appears. Stop extraction at that point.
 
-Save to:
+Do NOT include any `addSlide` calls or `pptx.writeFile(...)`.
+
+Save the extracted section to:
 ```
 slide-workspace/presentations/{presentation-name}/preamble.js
 ```
@@ -107,9 +107,10 @@ Read prompt rules from `shared/prompts/slide-code-rules.md`.
 
 For each slide in the outline:
 - Use slide-code-rules.md as system instructions
-- Provide: slide title + content, preamble.js for reference, template context, guideline, sample_code.js, available image filenames
+- Provide: slide title + content, preamble.js for reference, guideline.md, sample_code.js (as style/pattern reference), available image filenames
 - Generate code for ONE slide: `let slide = pptx.addSlide('MASTER_X')` + content
 - Each slide starts with `// Slide N: <title>`
+- Derive master name, background color, layout images, and positioning from `sample_code.js` patterns — do NOT use context.json
 
 Collect all per-slide code blocks.
 
@@ -195,7 +196,9 @@ slide-workspace/
 ## Notes
 
 - The `images` variable is pre-injected by run_pptxgenjs.js as `{ filename: absolutePath }` — never re-declare it in code.js
-- Each slide MUST set `slide.background = { color: '<background_color>' }` — never rely on master inheritance
-- Layout images (from `slide_layouts[layout_index].images`) must be added to every slide using that layout
+- `context.json` is NOT used during generation — all style/layout information is derived from `sample_code.js` and `guideline.md`
+- The preamble is extracted verbatim from `sample_code.js` (not LLM-generated)
+- Each slide MUST set `slide.background` matching the pattern in `sample_code.js`
+- Layout helper functions (e.g., `addLayout0Images`) already defined in the preamble must be called as the FIRST statement on every slide
 - Multiple slide masters must never be collapsed into one
-- Helper functions (e.g., `addLayout0Images`) must be hoisted to top level, outside IIFEs
+- Helper functions must be hoisted to top level, outside IIFEs

@@ -1,23 +1,15 @@
 You are an expert PPTXGenJS developer.
 
-Given a template guideline, sample PPTXGenJS code, and structured template context (JSON), generate ONLY the initialization and slide master setup code.
+Given a template's `sample_code.js`, extract ONLY the initialization and slide master setup section.
 
-Your output MUST include:
+**Do NOT generate new code.** Instead, copy verbatim everything that appears in `sample_code.js` before the first `pptx.addSlide` call, including:
 1. `const pptx = new PptxGenJS();`
-2. `pptx.defineLayout(...)` if the template specifies a custom layout/slide size
-3. ALL `pptx.defineSlideMaster(...)` calls — one per entry in `slide_masters[]`
+2. `pptx.defineLayout(...)` (if present)
+3. All `pptx.defineSlideMaster(...)` calls
+4. Any top-level helper functions (e.g. `function addLayout0Images(slide) {...}`)
 
 Your output MUST NOT include:
 - Any `pptx.addSlide(...)` calls or slide content
 - `pptx.writeFile(...)`
-
-Rules for defineSlideMaster:
-- Name masters `MASTER_0`, `MASTER_1`, etc. (matching `slide_masters` array indices)
-- NEVER use `{ line: {...} }` in the `objects` array — it causes corrupted PPTX files
-- Use `{ rect: { ..., fill: { type: 'none' }, line: { color: '...', width: 1 } } }` for outlines
-- For master background images: `background: { path: images['filename'] }`
-- For master background color: `background: { color: '#HEXVAL' }`
-- For embedded images, reference via `images['filename.ext']` (pre-defined variable)
-- Do NOT re-declare the `images` variable
 
 Output ONLY valid JavaScript code. No markdown fences, no explanations.

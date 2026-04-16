@@ -26,10 +26,14 @@ Ask the user for the PPTX file path if not provided. Confirm the file exists.
 
 ### Step 2 — Derive Template Name
 
-Derive a filesystem-safe template name from the filename:
+Derive a filesystem-safe template name from the filename with a timestamp suffix:
 - Take the filename without extension (e.g., `my-corp-template.pptx` → `my-corp-template`)
 - Replace spaces and special characters with hyphens
 - Convert to lowercase
+- Append a timestamp in `YYYYMMDD-HHmmss` format (use the current date/time)
+- Example: `my-corp-template.pptx` → `my-corp-template-20260407-143022`
+
+The timestamp ensures each analyze run produces a unique folder so re-analyzed versions never overwrite each other.
 
 ### Step 3 — Create Workspace
 
