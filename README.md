@@ -1,38 +1,223 @@
-# Slide Agent — AI-Powered PowerPoint Generation from Templates
+# Slide Agent — AI-Powered PowerPoint Generation
 
-Slide Agent is a set of skills integrated into **Claude Code** and **GitHub Copilot** (VS Code) that lets you create, edit, and manage complete PowerPoint presentations from your existing templates — using only natural language.
-
----
-
-## Overview
-
-The system works in three phases:
-
-```
-PPTX Template   ──[slide-analyze]──▶  Extract design guidelines
-                                              │
-Topic / Content ──[slide-generate]──▶  Generate presentation
-                                              │
-Edit request    ──[slide-edit]──────▶  Modify & regenerate
-```
-
-**Core strength:** Every generated presentation faithfully follows the original template's design — fonts, colors, layouts, and embedded images are all preserved automatically.
+Slide Agent generates complete PowerPoint presentations from your existing templates using natural language. Provide a `.pptx` template, describe the content, and the system produces a finished deck that preserves your brand's fonts, colors, layouts, and embedded imagery.
 
 ---
 
-## Installation
+## Who This Is For
 
-### Requirements
+This guide is intended for **non-technical users** — professionals who want to use AI to accelerate routine slide work without writing code:
+
+- Project managers producing weekly or sprint reports
+- Internal trainers preparing onboarding and training materials
+- Sales teams creating proposals and pitch decks
+- Marketing teams building campaign and event presentations
+- Anyone who regularly produces slides from a corporate template
+
+No programming knowledge is required. You interact with the system entirely through natural-language instructions.
+
+---
+
+## What You Can Do
+
+| Capability | Description |
+|---|---|
+| **Generate from template** | Produce a complete deck from a `.pptx` template plus a topic description. |
+| **Convert documents to slides** | Turn an existing Word, PDF, or Excel file into structured slide content. |
+| **Edit by instruction** | Modify finished decks with plain-language requests (e.g. *"change slide 3 background to navy"*). |
+| **Reuse templates indefinitely** | Analyze a template once; generate any number of presentations from it afterward. |
+
+---
+
+## Prerequisites
+
+You will need **one** of the following AI environments installed:
+
+- **[Claude Code](https://claude.ai/code)** by Anthropic
+- **[GitHub Copilot](https://github.com/features/copilot)** in VS Code
+
+After installing the AI tool, complete the [first-time setup](#first-time-setup) below. This is required only once per machine.
+
+---
+
+## Workflow Overview
+
+The system operates in three phases:
+
+```
+   Phase 1                Phase 2                Phase 3
+┌──────────┐          ┌──────────┐          ┌──────────┐
+│ ANALYZE  │  ────►  │ GENERATE │  ────►  │   EDIT   │
+│ TEMPLATE │          │   DECK   │          │  (opt.)  │
+└──────────┘          └──────────┘          └──────────┘
+ (once per          (once per             (as needed)
+  template)          presentation)
+```
+
+---
+
+## Step-by-Step Guide
+
+### Step 1 — Analyze a Template
+
+Point the system at any `.pptx` file on your computer — Desktop, Downloads, a shared drive, or anywhere else. There is no need to copy it into the project folder.
+
+In Claude Code or Copilot Chat, describe the request in plain language and reference the file path:
+
+```
+/slide-analyze
+Please analyze template: ~/Desktop/AcmeCorp_Brand_Template.pptx
+```
+
+The system extracts the template's design system — color palette, typography, layouts, slide masters, and embedded images — and stores the result for reuse.
+
+> Each template is analyzed **once**. Subsequent presentations using that template skip this step.
+
+---
+
+### Step 2 — Generate a Presentation
+
+Describe what you need conversationally. The system parses your intent and produces a finished deck.
+
+```
+/slide-generate
+Using the AcmeCorp template, create an 8-slide weekly report for the
+backend team covering Sprint 15. We completed 18 of 22 story points,
+finished the API authentication module, and made 70% progress on the
+database migration. Highlight the review-queue bottleneck as a blocker,
+and close with next week's plan to finalize the migration and begin the
+caching layer.
+```
+
+The output is `output.pptx`, ready to open in PowerPoint, Keynote, or Google Slides.
+
+---
+
+### Step 3 — Edit (Optional)
+
+Describe revisions in natural language:
+
+```
+/slide-edit
+In the weekly report deck, please update the date on slide 1 to
+April 29, 2026, replace the bar chart on slide 5 with a pie chart,
+and add contact information plus a QR code placeholder to the final slide.
+```
+
+The prior version is automatically backed up before any edit is applied.
+
+---
+
+## Best Practices
+
+### Be specific in content descriptions
+
+Vague: *"Create a marketing presentation."*
+
+Specific: *"Create a 6-slide pitch introducing Product X to enterprise customers, covering: problem, solution, demo, pricing, case study, call to action."*
+
+The quality of the output is directly proportional to the specificity of the input.
+
+### Reuse existing documents
+
+If your content already exists as a Word, Excel, or PDF document, use `/markitdown` to convert it into slide-ready material rather than re-typing:
+
+```
+/markitdown
+File: q1-financial-report.xlsx
+```
+
+You can then reference the converted content when invoking `/slide-generate`.
+
+### Invest in template quality
+
+Output quality scales with template quality. Templates with well-defined slide masters, varied layouts, and clean branding produce significantly better results. Choose or prepare your template carefully before the first analysis.
+
+### One template, many presentations
+
+After `/slide-analyze`, a single template can generate unlimited presentations. This is well-suited for:
+
+- Recurring weekly, monthly, or quarterly reports
+- Standardized training materials
+- Pitch decks tailored per client
+
+---
+
+## Common Use Cases
+
+### Weekly project report
+
+```
+/slide-generate
+Using the internal report template, prepare a 10-slide Week 17 update
+for the data team. Cover the week's highlights, status of major projects,
+KPI metrics, risks and blockers, and the plan for next week.
+```
+
+### Training and onboarding
+
+```
+/slide-generate
+Using the training template, create a 15-slide deck on IT procedures
+for new hires. Keep the tone professional and concise, and include
+supporting iconography where appropriate.
+```
+
+### Incident postmortem
+
+```
+/slide-generate
+Using the internal report template, prepare a 12-slide postmortem on
+the April 2026 infrastructure incident. Include the incident summary
+and timeline, root cause analysis, impact assessment (users affected
+and downtime duration), immediate remediation steps, long-term
+preventive measures, and a list of action items with owners and due dates.
+```
+
+---
+
+## Frequently Asked Questions
+
+**Do I need programming experience?**
+No. All interaction is through natural-language commands.
+
+**Will the AI alter my template's design?**
+No. Slide Agent is designed to follow the template's design system precisely — typography, color palette, and brand assets are preserved.
+
+**Will new presentations overwrite existing ones?**
+No. Each output folder is timestamped (e.g. `weekly-report-w15-20260429-143022`), so prior versions are never overwritten.
+
+**Are the output files compatible with PowerPoint and Google Slides?**
+Yes. Output is standard `.pptx`, compatible with Microsoft PowerPoint, Apple Keynote, Google Slides, and LibreOffice Impress.
+
+**The output does not match my template's style. What should I check?**
+Confirm that `/slide-analyze` was run for that template. If the issue persists, review the generated `guideline.md` to see how the system interpreted the template, then provide corrective feedback.
+
+**What happens if an edit produces an unwanted result?**
+Each edit creates a `code.js.bak` backup of the prior version. You can restore from backup or regenerate from scratch with `/slide-generate`.
+
+**Is there a limit on slide count?**
+There is no hard limit, though decks longer than 20 slides are best produced in segments for optimal quality.
+
+---
+
+## First-Time Setup
+
+Required once per machine.
+
+### System Requirements
 
 | Component | Minimum Version |
 |---|---|
 | [Claude Code](https://claude.ai/code) **or** [GitHub Copilot](https://github.com/features/copilot) (VS Code) | Latest |
-| Node.js | 18+ |
-| Python | 3.10+ |
+| [Node.js](https://nodejs.org/) | 18 or higher |
+| [Python](https://www.python.org/downloads/) | 3.10 or higher |
 
 ### Install Dependencies
 
-**Unix / macOS:**
+Open a terminal in the project directory and run:
+
+**macOS / Linux:**
 ```bash
 bash shared/scripts/setup_deps.sh
 ```
@@ -42,209 +227,64 @@ bash shared/scripts/setup_deps.sh
 .\shared\scripts\setup_deps.ps1
 ```
 
-This installs:
-- `pptxgenjs` ^4.0.1 and `uuid` ^10.0.0 (Node.js)
-- `python-pptx` ≥1.0.0 and `Pillow` ≥10.0.0 (Python)
+Setup typically completes in one to two minutes.
 
----
+### Verify Installation
 
-## Skills
-
-### `/slide-analyze` — Analyze a Template
-
-Analyzes a PPTX template file to extract its complete design system: fonts, colors, slide layouts, embedded images, and visual rules.
-
-**Input:** Path to a `.pptx` template file
-
-**Output** (saved to `slide-workspace/templates/{template-name}/`):
-- `context.json` — Full structured data of the template
-- `guideline.md` — Design rules, typography, color palette
-- `sample_code.js` — Example PPTXGenJS code in the template's style
-- `images/` — Extracted embedded images
-
-**Example prompt:**
-```
-/slide-analyze
-Template: slide-workspace/templates/my-company-template/original.pptx
+```bash
+node -e "require('pptxgenjs')"
+python -c "import pptx"
 ```
 
----
-
-### `/slide-generate` — Generate a Presentation
-
-Creates a complete presentation from a previously analyzed template, based on your topic and content requirements.
-
-**Prerequisite:** Template must be analyzed first with `/slide-analyze`
-
-**Output** (saved to `slide-workspace/presentations/{presentation-name}/`):
-- `outline.md` — Slide-by-slide content outline
-- `preamble.js` — PPTXGenJS initialization code
-- `code.js` — Full generated code for all slides
-- `output.pptx` — The final PowerPoint file
-
-**Example prompt:**
-```
-/slide-generate
-Template: my-company-template
-Name: team-weekly-report-w15
-Topic: Backend Team Weekly Progress Report — Week 15
-Slides: 8
-```
-
----
-
-### `/slide-edit` — Edit a Presentation
-
-Edits an existing generated presentation using natural language. The system updates the code and regenerates the PPTX automatically.
-
-**Prerequisite:** Presentation must be generated first with `/slide-generate`
-
-**Safety:** Automatically creates a `code.js.bak` backup before any changes
-
-**Example prompt:**
-```
-/slide-edit
-Presentation: team-weekly-report-w15
-Changes: Change slide 3 background to navy blue, update the metrics on slide 5
-```
-
----
-
-## Example Prompts
-
-### Weekly progress report
-
-```
-/slide-generate
-Template: corporate-weekly-report
-Name: backend-team-weekly-w16
-Topic: Backend Team Sprint Progress — Week 16
-Slides: 10
-Content:
-- Sprint overview: 18/22 story points completed
-- API authentication module: 100% done
-- Database migration: in progress, 70%
-- Blockers to escalate: bottleneck in review process
-- Next week plan: finalize migration, start caching layer
-```
-
-### Training / onboarding deck
-
-```
-/slide-generate
-Template: training-template
-Name: training-docker-basics
-Topic: Docker for Developers — From Zero to Production
-Slides: 15
-Style: Professional, include code examples and architecture diagrams
-```
-
-### Analyze a new template
-
-```
-/slide-analyze
-I have my company's PowerPoint template at:
-slide-workspace/templates/company-brand/original.pptx
-Please analyze it and generate a guideline so I can create branded slides.
-```
-
-### Quick edits after generation
-
-```
-/slide-edit
-Presentation: training-docker-basics
-Changes:
-1. Slide 1: Update date to April 15, 2026
-2. Slide 7: Add a note "Requires Docker Desktop 4.x+"
-3. Last slide: Add a QR code placeholder and contact information
-```
-
-### Full workflow — new topic on existing template
-
-```
-/slide-generate
-Template: corporate-weekly-report
-Name: infra-incident-postmortem
-Topic: Infrastructure Incident Postmortem — April 2026
-Slides: 12
-Content:
-- Incident summary and timeline
-- Root cause analysis
-- Impact assessment (users affected, downtime duration)
-- Immediate remediation steps taken
-- Long-term preventive measures
-- Action items with owners and due dates
-```
+If neither command produces an error, the system is ready.
 
 ---
 
 ## Workspace Structure
 
+All generated artifacts are stored under `slide-workspace/`:
+
 ```
 slide-workspace/
-├── templates/                    # Analyzed templates (reusable)
+├── templates/                    Analyzed templates (reusable)
 │   └── {template-name}/
-│       ├── original.pptx         # Original template file
-│       ├── context.json          # Structured template data
-│       ├── guideline.md          # Design guidelines
-│       ├── sample_code.js        # Example PPTXGenJS code
-│       └── images/               # Extracted embedded images
+│       ├── original.pptx         Original template file
+│       ├── guideline.md          Extracted design rules
+│       └── images/               Embedded images
 │
-└── presentations/                # Generated presentations
+└── presentations/                Generated presentations
     └── {presentation-name}/
-        ├── outline.md            # Content outline
-        ├── preamble.js           # Initialization code
-        ├── code.js               # Full slide code
-        ├── code.js.bak           # Backup before last edit
-        └── output.pptx           # Final PowerPoint file
+        ├── outline.md            Slide-by-slide outline
+        ├── output.pptx           Final PowerPoint file
+        └── code.js.bak           Backup from prior edit
 ```
 
----
-
-## Why Use Templates?
-
-Instead of building slides from scratch, Slide Agent deeply analyzes your template so that:
-
-1. **Brand identity is preserved** — Logos, colors, and fonts are applied exactly as designed
-2. **Layouts are reused correctly** — Slide masters and layout patterns are detected automatically
-3. **Visual consistency is guaranteed** — Every slide from first to last follows the same style rules
-4. **Design time is eliminated** — Just describe the content; the AI handles the presentation layer
-
-A template only needs to be analyzed once. After that, you can generate any number of presentations from it.
-
----
-
-## Recommended Workflow
-
-```
-1. Place your PPTX template in slide-workspace/templates/{name}/original.pptx
-         ↓
-2. /slide-analyze  →  Analyze once, reuse forever
-         ↓
-3. /slide-generate  →  Generate a presentation on any topic
-         ↓
-4. /slide-edit  →  Refine based on feedback
-         ↓
-5. Open output.pptx in PowerPoint or Google Slides
-```
+The primary output is `output.pptx`.
 
 ---
 
 ## Troubleshooting
 
-| Issue | Solution |
+| Issue | Resolution |
 |---|---|
-| `python-pptx not found` | Re-run `setup_deps.sh` or `pip install python-pptx Pillow` |
-| `pptxgenjs not found` | Run `npm install` inside `shared/scripts/` |
-| PPTX file fails to open | Re-run `/slide-generate` — the runner auto-fixes common PPTX XML issues |
-| Output doesn't match template style | Ensure `/slide-analyze` was run first; check `guideline.md` in the template folder |
-| `/slide-edit` breaks the layout | Restore from `code.js.bak`, then retry with a more specific description |
+| Slash commands are not recognized | Ensure Claude Code or VS Code is opened from the `pptx-skills` project root. |
+| `python-pptx not found` | Re-run the setup script, or install manually: `pip install python-pptx Pillow`. |
+| `pptxgenjs not found` | Run `npm install` inside `shared/scripts/`. |
+| Output `.pptx` fails to open | Re-run `/slide-generate`; the runtime auto-corrects common PPTX XML issues. |
+| Output style does not match the template | Confirm `/slide-analyze` was executed; review `guideline.md` for misinterpretations. |
+| `/slide-edit` produces a broken layout | Restore from `code.js.bak` and retry with a more precise instruction. |
+
+For unresolved issues, describe the problem to Claude Code or Copilot directly — the AI can assist with diagnosis.
 
 ---
 
-## Tech Stack
+## Technical Reference
 
-- **[PPTXGenJS](https://gitbrent.github.io/PptxGenJS/)** — JavaScript library for generating PowerPoint files
-- **[python-pptx](https://python-pptx.readthedocs.io/)** — Python library for parsing and extracting PPTX data
-- **Claude AI / GitHub Copilot** — Design analysis, content generation, PPTXGenJS code synthesis
-- **Agent Skills** — Workflow integration into Claude Code CLI and GitHub Copilot (VS Code) environments
+For implementation details and contribution guidelines:
+
+- **Architecture and conventions:** [CLAUDE.md](CLAUDE.md)
+- **PPTXGenJS API reference:** [shared/docs/pptxgenjs-api.md](shared/docs/pptxgenjs-api.md)
+- **Known constraints and pitfalls:** [shared/docs/pitfalls.md](shared/docs/pitfalls.md)
+- **Skill definitions:** [.claude/skills/](.claude/skills/) (Claude Code) and [.github/agents/](.github/agents/) (GitHub Copilot)
+
+**Stack:** [PPTXGenJS](https://gitbrent.github.io/PptxGenJS/), [python-pptx](https://python-pptx.readthedocs.io/), [markitdown](https://github.com/microsoft/markitdown), Claude Agent Skills, GitHub Copilot Custom Agents.
