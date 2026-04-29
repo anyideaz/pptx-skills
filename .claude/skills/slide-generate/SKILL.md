@@ -74,6 +74,7 @@ Using the outline rules as system instructions and the template guideline + user
 - Match slide types from the template's Layout Patterns
 - Include title/cover slide and thank-you/closing slide
 - Keep to the requested slide count
+- Each slide includes a **Data** section listing every chart, table, image, stat, or text element required on that slide (see outline-rules.md for exact format)
 
 Save the outline to:
 ```
